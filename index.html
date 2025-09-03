@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login | Schedule Planner</title>
+    <link href="Resources/css/login.css" type="text/css" rel="stylesheet" />
+  </head>
+
+  <div id="loading-overlay">
+    <div class="loader"></div>
+  </div>
+
+  <body>
+    <div class="login-container">
+      <h1 class="login-title">Plannr Login</h1>
+      <form id="login-form">
+        <input
+          type="text"
+          id="username"
+          placeholder="Username"
+          autocomplete="off"
+        />
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          autocomplete="off"
+        />
+        <button type="submit">Login</button>
+        <div id="error-message"></div>
+      </form>
+      <div class="signup-link">
+        <span>Don't have an account?</span>
+        <button id="show-signup">Sign Up</button>
+      </div>
+      <form id="signup-form" style="display: none">
+        <input
+          type="text"
+          id="new-username"
+          placeholder="New Username"
+          autocomplete="off"
+        />
+        <input
+          type="password"
+          id="new-password"
+          placeholder="New Password"
+          autocomplete="off"
+        />
+        <input
+          type="password"
+          id="confirm-password"
+          placeholder="Confirm Password"
+          autocomplete="off"
+        />
+        <button type="submit">Create Account</button>
+        <div id="signup-error-message"></div>
+      </form>
+    </div>
+    <script>
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const username = document.getElementById("username").value.trim();
+          const password = document.getElementById("password").value.trim();
+          const error = document.getElementById("error-message");
+          if (!username || !password) {
+            error.textContent = "Please enter both username and password.";
+            error.classList.add("show");
+          } else {
+            error.textContent = "";
+            error.classList.remove("show");
+            const loader = document.getElementById("loading-overlay");
+            loader.classList.add("show");
+            // Wait for fade-in, then fade out before redirect
+            setTimeout(function () {
+              loader.classList.remove("show");
+              setTimeout(function () {
+                window.location.href = "plannr.html";
+              }, 400); // Wait for fade-out transition (match CSS)
+            }, 1200); // Show loader for 1.2 seconds
+          }
+        });
+
+      document
+        .getElementById("show-signup")
+        .addEventListener("click", function () {
+          document.getElementById("signup-form").style.display = "flex";
+          document.getElementById("login-form").style.display = "none";
+          document.querySelector(".signup-link").style.display = "none";
+        });
+
+      document
+        .getElementById("signup-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const newUsername = document
+            .getElementById("new-username")
+            .value.trim();
+          const newPassword = document.getElementById("new-password").value;
+          const confirmPassword =
+            document.getElementById("confirm-password").value;
+          const error = document.getElementById("signup-error-message");
+          const passwordRegex = /^(?=.*\d)(?=.*[^a-zA-Z0-9])([^\s]{8,})$/;
+
+          if (!newUsername || !newPassword || !confirmPassword) {
+            error.textContent = "Please fill out all fields.";
+            error.classList.add("show");
+          } else if (newPassword !== confirmPassword) {
+            error.textContent = "Passwords do not match.";
+            error.classList.add("show");
+          } else if (!passwordRegex.test(newPassword)) {
+            error.textContent =
+              "Password must be at least 8 characters, contain no spaces, have at least one number and one special character.";
+            error.classList.add("show");
+          } else {
+            error.textContent = "";
+            error.classList.remove("show");
+            // Add sign-up logic here (e.g., save user info)
+            alert("Account created! You can now log in.");
+            document.getElementById("signup-form").style.display = "none";
+            document.getElementById("login-form").style.display = "flex";
+            document.querySelector(".signup-link").style.display = "block";
+          }
+        });
+    </script>
+  </body>
+</html>
