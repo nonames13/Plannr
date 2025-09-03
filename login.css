@@ -25,6 +25,7 @@ body {
     font-size: 2.2rem;
     margin-bottom: 50px;
     animation: slideDown 1s cubic-bezier(.68,-0.55,.27,1.55);
+    text-align: center;
 }
 
 #login-form {
@@ -185,4 +186,5 @@ button:hover {
 
 @keyframes spin {
     to { transform: rotate(360deg); }
+
 }
